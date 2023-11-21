@@ -22,9 +22,12 @@ body:
       label: Qualifier
       description: >-
         The optional qualifier for the release (for instance `CR1`).
-  - type: checkbox
+  - type: checkboxes
     id: major
     attributes:
       label: Major version
       description: >-
         Whether the release is a major new version (e.g. `4.0.0`). Use with care.
+      options:
+        - label: This release is a major version.
+          required: false
