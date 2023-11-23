@@ -17,9 +17,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-          server-id: 'sonatype-nexus-release'
-          server-username: ${{ secrets.MAVEN_SERVER_USERNAME }}
-          server-password: ${{ secrets.MAVEN_SERVER_PASSWORD }}
+          #server-id: 'sonatype-nexus-release'
+          #server-username: ${{ secrets.MAVEN_SERVER_USERNAME }}
+          #server-password: ${{ secrets.MAVEN_SERVER_PASSWORD }}
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
       - name: Set up JBang
         uses: jbangdev/setup-jbang@main
