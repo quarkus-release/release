@@ -12,22 +12,25 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      # TODO add token for checkout
-      # TODO: set up JReleaser config
-      - uses: actions/checkout@v4
+      - name: Check out quarkusio/quarkus-release
+        uses: actions/checkout@v4
         with:
           repository: quarkusio/quarkus-release
-      - uses: actions/setup-java@v3
+      - name: Set up Java environment
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '11'
-          #server-id: 'sonatype-nexus-release'
-          #server-username: ${{ secrets.MAVEN_SERVER_USERNAME }}
-          #server-password: ${{ secrets.MAVEN_SERVER_PASSWORD }}
+          # we do not define the server credentials here as we need to keep the github repository credentials around for executing the GitHub Action
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+      - name: Push Maven server settings
+        run: |
+          sed -i "s@</servers>@<server><id>sonatype-nexus-release</id><username>${{ secrets.MAVEN_SERVER_USERNAME }}</username><password>${{ secrets.MAVEN_SERVER_PASSWORD }}</password></server></servers>@" ~/.m2/settings.xml
       - name: Set up JBang
         uses: jbangdev/setup-jbang@main
-      - uses: quarkusio/conversational-release-action@main
+      - name: Start release
+        id: release
+        uses: quarkusio/conversational-release-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         env:
@@ -40,8 +43,16 @@ jobs:
           JRELEASER_HOMEBREW_GITHUB_USERNAME: ${{ secrets.JRELEASER_HOMEBREW_GITHUB_USERNAME }}
           JRELEASER_SDKMAN_CONSUMER_KEY: ${{ secrets.JRELEASER_SDKMAN_CONSUMER_KEY }}
           JRELEASER_SDKMAN_CONSUMER_TOKEN: ${{ secrets.JRELEASER_SDKMAN_CONSUMER_TOKEN }}
-      - uses: actions/upload-artifact@v3
+      - name: Upload work directory as artifact
+        uses: actions/upload-artifact@v3
         if: always()
         with:
           name: work
           path: work
+      - name: Post interaction comment
+        uses: quarkusio/conversational-release-action@main
+        if: always()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          action: post-interaction-comment
+          interaction-comment: ${{ steps.release.outputs.interaction-comment }}
