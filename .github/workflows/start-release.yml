@@ -12,6 +12,8 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Install lz4
+        run: sudo apt-get -y install lz4
       - name: Check out quarkusio/quarkus-release
         uses: actions/checkout@v4
         with:
@@ -43,12 +45,15 @@ jobs:
           JRELEASER_HOMEBREW_GITHUB_USERNAME: ${{ secrets.JRELEASER_HOMEBREW_GITHUB_USERNAME }}
           JRELEASER_SDKMAN_CONSUMER_KEY: ${{ secrets.JRELEASER_SDKMAN_CONSUMER_KEY }}
           JRELEASER_SDKMAN_CONSUMER_TOKEN: ${{ secrets.JRELEASER_SDKMAN_CONSUMER_TOKEN }}
-      - name: Upload work directory as artifact
+      - name: Create archive for work directory
+        if: always()
+        run: tar -I lz4 -cf work.tar.lz4 work
+      - name: Upload work directory archive as artifact
         uses: actions/upload-artifact@v3
         if: always()
         with:
           name: work
-          path: work
+          path: work.tar.lz4
       - name: Post interaction comment
         uses: quarkusio/conversational-release-action@main
         if: always()
