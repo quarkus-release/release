@@ -25,6 +25,13 @@ jobs:
         with:
           repository: quarkus-release/release
           path: release
+      - name: Set up Java environment
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          # we do not define the server credentials here as we need to keep the github repository credentials around for executing the GitHub Action
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
       - name: Get previous workflow run id
         id: get-workflow-run-id
         uses: quarkusio/conversational-release-action@main
@@ -36,13 +43,6 @@ jobs:
           gh run download ${{ steps.get-workflow-run-id.outputs.workflow-run-id }} -D work
           mv work ../
         working-directory: release
-      - name: Set up Java environment
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '11'
-          # we do not define the server credentials here as we need to keep the github repository credentials around for executing the GitHub Action
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
       - name: Push Maven server settings
         run: |
           sed -i "s@</servers>@<server><id>sonatype-nexus-release</id><username>${{ secrets.MAVEN_SERVER_USERNAME }}</username><password>${{ secrets.MAVEN_SERVER_PASSWORD }}</password></server></servers>@" ~/.m2/settings.xml
