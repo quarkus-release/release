@@ -16,6 +16,10 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Configure Git author
+        run: |
+          git config --global user.email "quarkusio@gmail.com"
+          git config --global user.name "quarkusbot"
       - name: Install lz4
         run: sudo apt-get -y install lz4
       - name: Check out quarkusio/quarkus-release
@@ -34,22 +38,38 @@ jobs:
           java-version: '11'
           # we do not define the server credentials here as we need to keep the github repository credentials around for executing the GitHub Action
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-      - name: Get previous workflow run id
-        id: get-workflow-run-id
+      - name: Get release status
+        id: get-release-status
         uses: quarkusio/conversational-release-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          action: get-workflow-run-id
+          action: get-release-status
+      - name: Get release information
+        id: get-release-information
+        uses: quarkusio/conversational-release-action@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          action: get-release-information
       - name: Download work artifact
         run: |
-          gh run download ${{ steps.get-workflow-run-id.outputs.workflow-run-id }} -n work
+          gh run download ${{ steps.get-release-status.outputs.workflow-run-id }} -n work
           tar -I lz4 -xf work.tar.lz4 --directory ../
         working-directory: release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Restore ~/.m2/repository cache
+        uses: actions/cache/restore@v3
+        with:
+          path: ~/.m2/repository
+          key: m2-repository-cache-${{ steps.get-release-information.outputs.branch }}
       - name: Push Maven server settings
         run: |
           sed -i "s@</servers>@<server><id>sonatype-nexus-release</id><username>${{ secrets.MAVEN_SERVER_USERNAME }}</username><password>${{ secrets.MAVEN_SERVER_PASSWORD }}</password></server></servers>@" ~/.m2/settings.xml
+      - name: Push Gradle publication settings
+        run: |
+          mkdir ~/.gradle
+          echo "gradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY }}" > ~/.gradle/gradle.properties
+          echo "gradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }}" >> ~/.gradle/gradle.properties
       - name: Set up JBang
         uses: jbangdev/setup-jbang@main
       - name: Continue release
@@ -76,6 +96,16 @@ jobs:
         with:
           name: work
           path: work.tar.lz4
+      - name: Clean up Maven cache
+        if: always()
+        run: |
+          [ -d ~/.m2/repository/io/quarkus ] && [ -n "${{ steps.release.outputs.version }}" ] && find ~/.m2/repository/io/quarkus -name ${{ steps.release.outputs.version }} -type d -exec rm -rf {} +
+      - name: Save ~/.m2/repository cache
+        if: always()
+        uses: actions/cache/save@v3
+        with:
+          path: ~/.m2/repository
+          key: m2-repository-cache-${{ steps.get-release-information.outputs.branch }}
       - name: Post interaction comment
         uses: quarkusio/conversational-release-action@main
         if: always()
