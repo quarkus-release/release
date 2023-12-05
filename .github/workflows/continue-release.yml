@@ -53,7 +53,9 @@ jobs:
       - name: Download work artifact
         run: |
           gh run download ${{ steps.get-release-status.outputs.workflow-run-id }} -n work
-          tar -I lz4 -xf work.tar.lz4 --directory ../
+          tar -I lz4 -xf work.tar.lz4 --directory ${{ github.workspace }}/
+          echo "Workspace: ${{ github.workspace }}"
+          ls ${{ github.workspace }}
         working-directory: release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -65,6 +67,8 @@ jobs:
       - name: Push Maven server settings
         run: |
           sed -i "s@</servers>@<server><id>ossrh</id><username>${{ secrets.MAVEN_SERVER_USERNAME }}</username><password>${{ secrets.MAVEN_SERVER_PASSWORD }}</password></server></servers>@" ~/.m2/settings.xml
+          echo "Workspace: ${{ github.workspace }}"
+          pwd
       - name: Push Gradle publication settings
         run: |
           mkdir ~/.gradle
