@@ -40,6 +40,9 @@ jobs:
         with:
           path: ~/.m2/repository
           key: m2-repository-cache-${{ steps.get-release-information.outputs.branch }}
+      - name: Clean up cache
+        run: |
+          [ -d ~/.m2/repository/io/quarkus ] && find ~/.m2/repository/io/quarkus -name 999-SNAPSHOT -type d -exec rm -rf {} +
       - name: Push Maven server settings
         run: |
           sed -i "s@</servers>@<server><id>ossrh</id><username>${{ secrets.MAVEN_SERVER_USERNAME }}</username><password>${{ secrets.MAVEN_SERVER_PASSWORD }}</password></server></servers>@" ~/.m2/settings.xml
@@ -78,6 +81,7 @@ jobs:
         if: always()
         run: |
           [ -d ~/.m2/repository/io/quarkus ] && [ -n "${{ steps.release.outputs.version }}" ] && find ~/.m2/repository/io/quarkus -name ${{ steps.release.outputs.version }} -type d -exec rm -rf {} +
+          [ -d ~/.m2/repository/io/quarkus ] && find ~/.m2/repository/io/quarkus -name 999-SNAPSHOT -type d -exec rm -rf {} +
       - name: Save ~/.m2/repository cache
         if: always()
         uses: actions/cache/save@v3
