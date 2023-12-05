@@ -55,8 +55,7 @@ jobs:
           gh run download ${{ steps.get-release-status.outputs.workflow-run-id }} -n work
           tar -I lz4 -xf work.tar.lz4 --directory ${{ github.workspace }}/
           echo "Workspace: ${{ github.workspace }}"
-          ls -l ${{ github.workspace }}
-          ls -l ${{ github.workspace }}/work
+          ls ${{ github.workspace }}
         working-directory: release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
