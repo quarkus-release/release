@@ -81,6 +81,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         env:
+          MAVEN_OPTS: -Xmx3g
           GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PRIVATE_PASSPHRASE }}
           RELEASE_GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
           JRELEASER_GITHUB_TOKEN: ${{ secrets.JRELEASER_GITHUB_TOKEN }}
