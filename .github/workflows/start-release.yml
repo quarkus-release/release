@@ -78,6 +78,7 @@ jobs:
         with:
           name: work
           path: work.tar.lz4
+          retention-days: 20
       - name: Clean up Maven cache
         if: always()
         run: |
