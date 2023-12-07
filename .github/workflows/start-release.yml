@@ -12,6 +12,11 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Provide visual feedback
+        uses: quarkusio/conversational-release-action@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          action: looking
       - name: Configure Git author
         run: |
           git config --global user.email "quarkusio@gmail.com"
@@ -22,19 +27,19 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: quarkusio/quarkus-release
-      - name: Set up Java environment
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '11'
-          # we do not define the server credentials here as we need to keep the github repository credentials around for executing the GitHub Action
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
       - name: Get release information
         id: get-release-information
         uses: quarkusio/conversational-release-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           action: get-release-information
+      - name: Set up Java environment
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ steps.get-release-information.outputs.jdk }}
+          # we do not define the server credentials here as we need to keep the github repository credentials around for executing the GitHub Action
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
       - name: Restore ~/.m2/repository cache
         uses: actions/cache/restore@v3
         with:
