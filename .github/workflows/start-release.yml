@@ -12,6 +12,11 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Provide visual feedback
+        uses: quarkusio/conversational-release-action@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          action: looking
       - name: Configure Git author
         run: |
           git config --global user.email "quarkusio@gmail.com"
