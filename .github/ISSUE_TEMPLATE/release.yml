@@ -7,7 +7,7 @@ body:
       value: |
         This form will perform a Quarkus release. Use with care and only if you know what you are doing.
 
-        :warning: Only Quarkus releasers can actually start a release. :warning:
+        **IMPORTANT** Only Quarkus releasers can actually start a release.
   - type: input
     id: branch
     validations:
@@ -15,7 +15,7 @@ body:
     attributes:
       label: Branch
       description: >-
-        The name of the branch to release (e.g. `3.5`).
+        The name of the branch to release (e.g. `3.5`). Do **NOT** release from `main`.
   - type: input
     id: qualifier
     attributes:
