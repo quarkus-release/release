@@ -21,6 +21,9 @@ jobs:
         run: |
           git config --global user.email "quarkusio@gmail.com"
           git config --global user.name "quarkusbot"
+          git config --global url."https://api:${{ secrets.RELEASE_GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://ssh:${{ secrets.RELEASE_GITHUB_TOKEN }}@github.com/".insteadOf "ssh://git@github.com/"
+          git config --global url."https://git:${{ secrets.RELEASE_GITHUB_TOKEN }}@github.com/".insteadOf "git@github.com:"
       - name: Install lz4
         run: sudo apt-get -y install lz4
       - name: Check out quarkusio/quarkus-release
