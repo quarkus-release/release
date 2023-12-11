@@ -12,7 +12,3 @@ To start a release, create a [new issue](https://github.com/quarkus-release/rele
 It will start a workflow run that will guide you through the release process.
 
 If you have any questions about the process, please ping `@gsmet`.
-
-### Good to know
-
-This repository is located outside of the [QuarkusIO GitHub organization](https://github.com/quarkusio) so that we can release even if the Quarkus CI is overloaded.
