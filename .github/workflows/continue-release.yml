@@ -21,7 +21,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 11
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
       - name: Provide visual feedback
         uses: quarkusio/conversational-release-action@main
         with:
