@@ -8,6 +8,10 @@ permissions:
   actions: write
   issues: write
 
+concurrency:
+  group: issue-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: ubuntu-latest
