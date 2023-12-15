@@ -1,0 +1,70 @@
+name: Monitor artifact publication
+
+on:
+  workflow_dispatch:
+    inputs:
+      group-id:
+        description: 'Group id of the artifact'
+        required: true
+      artifact-id:
+        description: 'Artifact id of the artifact'
+        required: true
+      version:
+        description: 'Version of the artifact'
+        required: true
+      issue-number:
+        description: 'Issue number to post to'
+        required: true
+      message-if-published:
+        description: 'Message to post if artifact is published'
+        required: true
+      message-if-not-published:
+        description: 'Message to post if artifact is not published'
+        required: true
+      initial-delay:
+        description: 'Initial delay in minutes before testing for the first time'
+        required: true
+      poll-delay:
+        description: 'Poll delay in minutes'
+        required: true
+      poll-iterations:
+        description: 'Number of polling iterations'
+        required: true
+      post-delay:
+        description: 'Delay in minutes to wait after this particular artifact is published'
+        required: true
+
+permissions:
+  issues: write
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: issue-${{ github.event.inputs.issue-number }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Java environment
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
+      - name: Monitor artifact publication
+        uses: quarkusio/monitor-artifact-publication-action@main
+        with:
+          github-token: ${{ secrets.RELEASE_GITHUB_TOKEN }}
+          group-id: ${{ github.event.inputs.group-id }}
+          artifact-id: ${{ github.event.inputs.artifact-id }}
+          version: ${{ github.event.inputs.version }}
+          issue-number: ${{ github.event.inputs.issue-number }}
+          message-if-published: ${{ github.event.inputs.message-if-published }}
+          message-if-not-published: ${{ github.event.inputs.message-if-not-published }}
+          initial-delay: ${{ github.event.inputs.initial-delay }}
+          poll-delay: ${{ github.event.inputs.poll-delay }}
+          poll-iterations: ${{ github.event.inputs.poll-iterations }}
+          post-delay: ${{ github.event.inputs.post-delay }}
