@@ -78,7 +78,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: ~/.m2/repository
-          key: m2-repository-cache-${{ steps.get-release-information.outputs.branch }}
+          key: m2-repository-cache-continue-${{ steps.get-release-information.outputs.branch }}
       - name: Clean up cache
         run: |
           [ -d ~/.m2/repository/io/quarkus ] && find ~/.m2/repository/io/quarkus -name 999-SNAPSHOT -type d -exec rm -rf {} +
@@ -128,7 +128,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: ~/.m2/repository
-          key: m2-repository-cache-${{ steps.get-release-information.outputs.branch }}
+          key: m2-repository-cache-continue-${{ steps.get-release-information.outputs.branch }}
       - name: Post interaction comment
         uses: quarkusio/conversational-release-action@main
         if: always()
