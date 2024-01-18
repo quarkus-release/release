@@ -52,14 +52,6 @@ jobs:
           java-version: ${{ steps.get-release-information.outputs.jdk }}
           # we do not define the server credentials here as we need to keep the github repository credentials around for executing the GitHub Action
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-      - name: Restore ~/.m2/repository cache
-        uses: actions/cache/restore@v3
-        with:
-          path: ~/.m2/repository
-          key: m2-repository-cache-${{ steps.get-release-information.outputs.branch }}
-      - name: Clean up cache
-        run: |
-          [ -d ~/.m2/repository/io/quarkus ] && find ~/.m2/repository/io/quarkus -name 999-SNAPSHOT -type d -exec rm -rf {} +
       - name: Push Maven server settings
         run: |
           sed -i "s@</servers>@<server><id>ossrh</id><username>${{ secrets.MAVEN_SERVER_USERNAME }}</username><password>${{ secrets.MAVEN_SERVER_PASSWORD }}</password></server></servers>@" ~/.m2/settings.xml
@@ -101,12 +93,6 @@ jobs:
         run: |
           [ -d ~/.m2/repository/io/quarkus ] && [ -n "${{ steps.release.outputs.version }}" ] && find ~/.m2/repository/io/quarkus -name ${{ steps.release.outputs.version }} -type d -exec rm -rf {} +
           [ -d ~/.m2/repository/io/quarkus ] && find ~/.m2/repository/io/quarkus -name 999-SNAPSHOT -type d -exec rm -rf {} +
-      - name: Save ~/.m2/repository cache
-        if: always()
-        uses: actions/cache/save@v3
-        with:
-          path: ~/.m2/repository
-          key: m2-repository-cache-${{ steps.get-release-information.outputs.branch }}
       - name: Post interaction comment
         uses: quarkusio/conversational-release-action@main
         if: always()
