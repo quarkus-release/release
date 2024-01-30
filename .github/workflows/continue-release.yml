@@ -20,6 +20,8 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Display external IP address
+        run: curl http://monip.org/
       - name: Set up Java environment
         uses: actions/setup-java@v3
         with:
