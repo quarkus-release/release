@@ -23,7 +23,7 @@ jobs:
       - name: Display external IP address
         run: curl 'https://api64.ipify.org?format=json' || true
       - name: Set up Java environment
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 11
@@ -63,7 +63,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           action: get-release-information
       - name: Set up Java environment
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: ${{ steps.get-release-information.outputs.jdk }}
