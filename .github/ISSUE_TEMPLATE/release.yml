@@ -21,7 +21,7 @@ body:
     attributes:
       label: Qualifier
       description: >-
-        The optional qualifier for the release (for instance `CR1`).
+        The optional **preview** qualifier for the release (for instance `CR1`). The `Final` qualifier is added automatically for branches that require it.
   - type: checkboxes
     id: major
     attributes:
