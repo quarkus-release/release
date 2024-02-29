@@ -15,6 +15,8 @@ Even if the process is far more guided with this new approach, releases should s
 To start a release, create a [new issue](https://github.com/quarkus-release/release/issues/new?assignees=&labels=kind%2Frelease&projects=&template=release.yml).
 It will start a workflow run that will guide you through the release process.
 
+Just keep the issue open in a browser tab and have a look when you are notified of new issue comments in the tab.
+
 ### Examples
 
 #### 3.2.x.Final
