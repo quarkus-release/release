@@ -17,6 +17,14 @@ It will start a workflow run that will guide you through the release process.
 
 ### Examples
 
+#### 3.2.x.Final
+
+- <kbd>Branch</kbd> `3.2`
+- <kbd>Qualifier</kbd>
+- <kbd>Major version</kbd>
+
+There is no need for a qualifier. `.Final` will be added automatically.
+
 #### 3.8.0.CR1
 
 - <kbd>Branch</kbd> `3.8` (the branch will be created automatically)
