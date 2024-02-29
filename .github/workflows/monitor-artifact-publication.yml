@@ -49,11 +49,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Java environment
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 21
       - name: Monitor artifact publication
         uses: quarkusio/monitor-artifact-publication-action@main
         with:
