@@ -17,6 +17,8 @@ It will start a workflow run that will guide you through the release process.
 
 Just keep the issue open in a browser tab and have a look when you are notified of new issue comments in the tab.
 
+:rotating_light: When starting a new LTS release cycle, you need to declare the new LTS version here: https://github.com/quarkusio/conversational-release-action/blob/main/src/main/java/io/quarkus/bot/release/util/Branches.java#L10 .
+
 ### Examples
 
 #### 3.2.x.Final
