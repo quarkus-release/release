@@ -17,6 +17,14 @@ body:
       description: >-
         The name of the branch to release (e.g. `3.5`). Do **NOT** release from `main`.
   - type: input
+    id: origin-branch
+    validations:
+      required: false
+    attributes:
+      label: Origin branch
+      description: >-
+        The name of the origin branch. Defaults to `main`. Make it point to the previous minor's branch when releasing the `CR1` of a LTS version.
+  - type: input
     id: qualifier
     attributes:
       label: Qualifier
