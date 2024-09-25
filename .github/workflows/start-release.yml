@@ -49,7 +49,7 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
       - name: Push Maven server settings
         run: |
-          sed -i "s@</servers>@<server><id>ossrh</id><username>${{ secrets.MAVEN_SERVER_USERNAME }}</username><password>${{ secrets.MAVEN_SERVER_PASSWORD }}</password></server></servers>@" ~/.m2/settings.xml
+          sed -i "s@</servers>@<server><id>ossrh</id><username>${{ secrets.MAVEN_SERVER_USERNAME }}</username><password>${{ secrets.MAVEN_SERVER_PASSWORD }}</password></server></servers><profiles><profile><id>google-mirror</id><repositories><repository><id>google-maven-central</id><name>GCS Maven Central mirror EU</name><url>https://maven-central.storage-download.googleapis.com/maven2/</url><releases><enabled>true</enabled></releases><snapshots><enabled>false</enabled></snapshots></repository></repositories><pluginRepositories><pluginRepository><id>google-maven-central</id><name>GCS Maven Central mirror EU</name><url>https://maven-central.storage-download.googleapis.com/maven2/</url><releases><enabled>true</enabled></releases><snapshots><enabled>false</enabled></snapshots></pluginRepository></pluginRepositories></profile></profiles><activeProfiles><activeProfile>google-mirror</activeProfile></activeProfiles>@" ~/.m2/settings.xml
       - name: Push Gradle publication settings
         run: |
           mkdir ~/.gradle
