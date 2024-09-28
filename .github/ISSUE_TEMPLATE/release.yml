@@ -29,7 +29,7 @@ body:
     attributes:
       label: Origin branch
       description: >-
-        The name of the origin branch. Defaults to `main`. Make it point to the previous minor's branch when releasing the `CR1` of a LTS version.
+        Only useful when doing a `CR1`. The branch from which we create the versioned branch. Defaults to `main` and should only be set to the previous versioned branch when doing a `CR1` for a LTS release (as we will branch from the previous versioned branch).
   - type: checkboxes
     id: major
     attributes:

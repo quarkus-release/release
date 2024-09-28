@@ -26,26 +26,56 @@ Just keep the issue open in a browser tab and have a look when you are notified 
 - <kbd>Branch</kbd> `3.2`
 - <kbd>Qualifier</kbd>
 - <kbd>Major version</kbd>
+- <kbd>Origin branch</kbd>
 
 There is no need for a qualifier. `.Final` will be added automatically.
 
-#### 3.8.0.CR1
+#### 3.14.0.CR1
 
-- <kbd>Branch</kbd> `3.8` (the branch will be created automatically)
+- <kbd>Branch</kbd> `3.14` (the branch will be created automatically)
 - <kbd>Qualifier</kbd> `CR1`
 - <kbd>Major version</kbd>
+- <kbd>Origin branch</kbd>
 
-#### 3.8.x
+#### 3.14.z
 
-- <kbd>Branch</kbd> `3.8`
+- <kbd>Branch</kbd> `3.14`
 - <kbd>Qualifier</kbd>
 - <kbd>Major version</kbd>
+- <kbd>Origin branch</kbd>
+
+#### 3.15.0.CR1 **LTS**
+
+- <kbd>Branch</kbd> `3.15` (the branch will be created automatically)
+- <kbd>Qualifier</kbd> `CR1`
+- <kbd>Major version</kbd>
+- <kbd>Origin branch</kbd> `3.14`
+
+> [!TIP]
+> When releasing a LTS version, the origin branch must be set to the previous versioned branch as we want to branch from this version.
+>
+> Also you need to make sure, the LTS version is declared in the [Conversational Release Action](https://github.com/quarkusio/conversational-release-action/blob/main/src/main/java/io/quarkus/bot/release/util/Branches.java#L12).
+
+#### 3.15.0 **LTS**
+
+- <kbd>Branch</kbd> `3.15`
+- <kbd>Qualifier</kbd>
+- <kbd>Major version</kbd>
+- <kbd>Origin branch</kbd>
+
+#### 3.15.z **LTS**
+
+- <kbd>Branch</kbd> `3.15`
+- <kbd>Qualifier</kbd>
+- <kbd>Major version</kbd>
+- <kbd>Origin branch</kbd>
 
 #### 4.0.0.CR1
 
 - <kbd>Branch</kbd> `4.0` (the branch will be created automatically)
 - <kbd>Qualifier</kbd> `CR1`
 - <kbd>Major version</kbd> ✔️
+- <kbd>Origin branch</kbd>
 
 ## Questions
 
