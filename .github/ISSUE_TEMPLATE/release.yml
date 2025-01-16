@@ -22,6 +22,15 @@ body:
       label: Qualifier
       description: >-
         The optional **preview** qualifier for the release (for instance `CR1`). The `Final` qualifier is added automatically for branches that require it.
+  - type: checkboxes
+    id: emergency
+    attributes:
+      label: Emergency release
+      description: >-
+        Whether the release is an emergency release (e.g. `3.17.7.1`). Only for LTS branches with regular release cadence.
+      options:
+        - label: This release is an emergency release.
+          required: false
   - type: input
     id: origin-branch
     validations:
