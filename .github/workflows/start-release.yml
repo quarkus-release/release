@@ -47,9 +47,10 @@ jobs:
           java-version: ${{ steps.get-release-information.outputs.jdk }}
           # we do not define the server credentials here as we need to keep the github repository credentials around for executing the GitHub Action
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
       - name: Push Maven server settings
         run: |
-          sed -i "s@</servers>@<server><id>ossrh</id><username>${{ secrets.MAVEN_SERVER_USERNAME }}</username><password>${{ secrets.MAVEN_SERVER_PASSWORD }}</password></server></servers><profiles><profile><id>google-mirror</id><repositories><repository><id>google-maven-central</id><name>GCS Maven Central mirror EU</name><url>https://maven-central.storage-download.googleapis.com/maven2/</url><releases><enabled>true</enabled></releases><snapshots><enabled>false</enabled></snapshots></repository></repositories><pluginRepositories><pluginRepository><id>google-maven-central</id><name>GCS Maven Central mirror EU</name><url>https://maven-central.storage-download.googleapis.com/maven2/</url><releases><enabled>true</enabled></releases><snapshots><enabled>false</enabled></snapshots></pluginRepository></pluginRepositories></profile></profiles><activeProfiles><activeProfile>google-mirror</activeProfile></activeProfiles>@" ~/.m2/settings.xml
+          sed -i "s@</servers>@</servers><profiles><profile><id>google-mirror</id><repositories><repository><id>google-maven-central</id><name>GCS Maven Central mirror EU</name><url>https://maven-central.storage-download.googleapis.com/maven2/</url><releases><enabled>true</enabled></releases><snapshots><enabled>false</enabled></snapshots></repository></repositories><pluginRepositories><pluginRepository><id>google-maven-central</id><name>GCS Maven Central mirror EU</name><url>https://maven-central.storage-download.googleapis.com/maven2/</url><releases><enabled>true</enabled></releases><snapshots><enabled>false</enabled></snapshots></pluginRepository></pluginRepositories></profile></profiles><activeProfiles><activeProfile>google-mirror</activeProfile></activeProfiles>@" ~/.m2/settings.xml
       - name: Push Gradle publication settings
         run: |
           mkdir ~/.gradle
@@ -62,7 +63,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         env:
           MAVEN_OPTS: -Xmx3g
-          GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PRIVATE_PASSPHRASE }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PRIVATE_PASSPHRASE }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           RELEASE_GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
           JRELEASER_GITHUB_TOKEN: ${{ secrets.JRELEASER_GITHUB_TOKEN }}
           JRELEASER_CHOCOLATEY_GITHUB_TOKEN: ${{ secrets.JRELEASER_CHOCOLATEY_GITHUB_TOKEN }}
