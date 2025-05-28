@@ -63,6 +63,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         env:
           MAVEN_OPTS: -Xmx3g
+          MAVEN_GPG_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PRIVATE_PASSPHRASE }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
