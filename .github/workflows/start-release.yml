@@ -28,8 +28,9 @@ jobs:
           git config --global url."https://api:${{ secrets.RELEASE_GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
           git config --global url."https://ssh:${{ secrets.RELEASE_GITHUB_TOKEN }}@github.com/".insteadOf "ssh://git@github.com/"
           git config --global url."https://git:${{ secrets.RELEASE_GITHUB_TOKEN }}@github.com/".insteadOf "git@github.com:"
-      - name: Install lz4
-        run: sudo apt-get -y install lz4
+      - name: Install additional packages
+        run: |
+          sudo apt-get -y install lz4 xmlstarlet
       - name: Check out quarkusio/main-release-scripts
         uses: actions/checkout@v4
         with:
