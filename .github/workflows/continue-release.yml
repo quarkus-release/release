@@ -20,6 +20,12 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      # Install Java 21 for JBang, the default JDK will be overridden later by the one we want to build with
+      - name: Set up Java environment
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
       - name: Display external IP address
         run: curl 'https://api64.ipify.org?format=json' || true
       - name: Provide visual feedback
@@ -63,9 +69,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ steps.get-release-information.outputs.jdk }}
-          # we do not define the server credentials here as we need to keep the github repository credentials around for executing the GitHub Action
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
       - name: Download work artifact
         run: |
           gh run download ${{ steps.get-release-status.outputs.workflow-run-id }} -n work

@@ -16,6 +16,12 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      # Install Java 21 for JBang, the default JDK will be overridden later by the one we want to build with
+      - name: Set up Java environment
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
       - name: Provide visual feedback
         uses: quarkusio/conversational-release-action@main
         with:
@@ -46,9 +52,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ steps.get-release-information.outputs.jdk }}
-          # we do not define the server credentials here as we need to keep the github repository credentials around for executing the GitHub Action
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
       - name: Push Maven server settings
         run: |
           sed -i "s@</servers>@</servers><profiles><profile><id>google-mirror</id><repositories><repository><id>google-maven-central</id><name>GCS Maven Central mirror EU</name><url>https://maven-central.storage-download.googleapis.com/maven2/</url><releases><enabled>true</enabled></releases><snapshots><enabled>false</enabled></snapshots></repository></repositories><pluginRepositories><pluginRepository><id>google-maven-central</id><name>GCS Maven Central mirror EU</name><url>https://maven-central.storage-download.googleapis.com/maven2/</url><releases><enabled>true</enabled></releases><snapshots><enabled>false</enabled></snapshots></pluginRepository></pluginRepositories></profile></profiles><activeProfiles><activeProfile>google-mirror</activeProfile></activeProfiles>@" ~/.m2/settings.xml
