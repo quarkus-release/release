@@ -31,7 +31,6 @@ jobs:
       - name: Provide visual feedback
         uses: quarkusio/conversational-release-action@main
         with:
-          jdk-path: ${{ env.JAVA_HOME_21_X64 }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           action: looking
       - name: Configure Git author
@@ -57,14 +56,12 @@ jobs:
         id: get-release-status
         uses: quarkusio/conversational-release-action@main
         with:
-          jdk-path: ${{ env.JAVA_HOME_21_X64 }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           action: get-release-status
       - name: Get release information
         id: get-release-information
         uses: quarkusio/conversational-release-action@main
         with:
-          jdk-path: ${{ env.JAVA_HOME_21_X64 }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           action: get-release-information
       - name: Set up Java environment
@@ -101,7 +98,6 @@ jobs:
         id: release
         uses: quarkusio/conversational-release-action@main
         with:
-          jdk-path: ${{ env.JAVA_HOME_21_X64 }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
         env:
           MAVEN_OPTS: -Xmx3g
@@ -143,7 +139,6 @@ jobs:
         uses: quarkusio/conversational-release-action@main
         if: always()
         with:
-          jdk-path: ${{ env.JAVA_HOME_21_X64 }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           action: post-interaction-comment
           interaction-comment: ${{ steps.release.outputs.interaction-comment }}
