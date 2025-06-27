@@ -32,6 +32,14 @@ body:
         - label: This release is an emergency release.
           required: false
   - type: input
+    id: emergency-release-core-branch
+    validations:
+      required: false
+    attributes:
+      label: Emergency release Core branch
+      description: >-
+        Only useful when doing an emergency release and optional: points the Core build to a specific branch of the Core repository. Useful when the branch already contains changes we don't want in the emergency release.
+  - type: input
     id: origin-branch
     validations:
       required: false
