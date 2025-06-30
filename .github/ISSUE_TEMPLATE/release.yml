@@ -38,7 +38,7 @@ body:
     attributes:
       label: Emergency release Core branch
       description: >-
-        Only useful when doing an emergency release and optional: points the Core build to a specific branch of the Core repository. Useful when the branch already contains changes we don't want in the emergency release.
+        Only useful when doing an emergency release and optional: points the Core build to a specific branch of the Core repository. Useful when the branch already contains changes we don't want in the emergency release. For an emergency release on top of `3.20.2`, name the branch `3.20.2-emergency` and reuse the same branch for all emergency releases on top of `3.20.2`.
   - type: input
     id: origin-branch
     validations:
