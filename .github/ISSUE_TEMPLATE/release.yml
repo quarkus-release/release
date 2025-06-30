@@ -22,6 +22,13 @@ body:
       label: Qualifier
       description: >-
         The optional **preview** qualifier for the release (for instance `CR1`). The `Final` qualifier is added automatically for branches that require it.
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+        ---
+        ### Emergency release
   - type: checkboxes
     id: emergency
     attributes:
@@ -39,6 +46,13 @@ body:
       label: Emergency release Core branch
       description: >-
         Only useful when doing an emergency release and optional: points the Core build to a specific branch of the Core repository. Useful when the branch already contains changes we don't want in the emergency release. For an emergency release on top of `3.20.2`, name the branch `3.20.2-emergency` and reuse the same branch for all emergency releases on top of `3.20.2`.
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+        ---
+        ### LTS release (CR1 only)
   - type: input
     id: origin-branch
     validations:
@@ -47,6 +61,13 @@ body:
       label: Origin branch
       description: >-
         Only useful when doing a `CR1`. The branch from which we create the versioned branch. Defaults to `main` and should only be set to the previous versioned branch when doing a `CR1` for a LTS release (as we will branch from the previous versioned branch).
+  - type: markdown
+    attributes:
+      value: |
+        <br>
+
+        ---
+        ### Major version
   - type: checkboxes
     id: major
     attributes:
