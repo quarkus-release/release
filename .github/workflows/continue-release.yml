@@ -40,6 +40,10 @@ jobs:
           git config --global url."https://api:${{ secrets.RELEASE_GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
           git config --global url."https://ssh:${{ secrets.RELEASE_GITHUB_TOKEN }}@github.com/".insteadOf "ssh://git@github.com/"
           git config --global url."https://git:${{ secrets.RELEASE_GITHUB_TOKEN }}@github.com/".insteadOf "git@github.com:"
+
+          # disable signed commits for now
+          git config --global commit.gpgsign false
+          git config --global tag.gpgSign false
       - name: Install additional packages
         run: |
           sudo apt-get -y install lz4 xmlstarlet
