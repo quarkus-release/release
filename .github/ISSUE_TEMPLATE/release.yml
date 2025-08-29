@@ -15,7 +15,7 @@ body:
     attributes:
       label: Branch
       description: >-
-        The name of the branch to release (e.g. `3.5`). Do **NOT** release from `main`.
+        The name of the branch to release (e.g. `3.5`, stick to the minor, see Emergency release section to override the branch). Do **NOT** release from `main`.
   - type: input
     id: qualifier
     attributes:
