@@ -43,6 +43,8 @@ jobs:
       - name: Monitor Platform CI
         env:
           GH_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
+          MESSAGE_IF_SUCCESS: ${{ github.event.inputs.message-if-success }}
+          MESSAGE_IF_FAILURE: ${{ github.event.inputs.message-if-failure }}
         run: |
           PR_NUMBER="${{ github.event.inputs.pr-number }}"
           ISSUE_NUMBER="${{ github.event.inputs.issue-number }}"
@@ -83,13 +85,13 @@ jobs:
 
             if [ "${PENDING}" -eq 0 ] && [ "${FAILED}" -eq 0 ] && [ "${PASSED}" -gt 0 ]; then
               echo "All checks passed!"
-              gh issue comment ${ISSUE_NUMBER} --repo "${{ github.repository }}" --body "${{ github.event.inputs.message-if-success }}"
+              gh issue comment ${ISSUE_NUMBER} --repo "${{ github.repository }}" --body "${MESSAGE_IF_SUCCESS}"
               exit 0
             fi
 
             if [ "${PENDING}" -eq 0 ] && [ "${FAILED}" -gt 0 ]; then
               echo "Some checks failed, giving up and requesting manual intervention"
-              gh issue comment ${ISSUE_NUMBER} --repo "${{ github.repository }}" --body "${{ github.event.inputs.message-if-failure }}"
+              gh issue comment ${ISSUE_NUMBER} --repo "${{ github.repository }}" --body "${MESSAGE_IF_FAILURE}"
               exit 1
             fi
 
