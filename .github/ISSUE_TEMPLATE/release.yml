@@ -15,7 +15,7 @@ body:
     attributes:
       label: Branch
       description: >-
-        The name of the branch to release (e.g. `3.5`, stick to the minor, see Emergency release section to override the branch). Do **NOT** release from `main`.
+        The minor version to release (e.g. `3.39` or `4.0`). For pre-CR1 releases (Alpha, Beta), use the version branch. It does not exist yet and the release will be built from `main` but we need the version branch here.
   - type: input
     id: qualifier
     attributes:
@@ -69,19 +69,3 @@ body:
       label: Origin branch
       description: >-
         Only useful when doing a `CR1`. The branch from which we create the versioned branch. Defaults to `main` and should only be set to the previous versioned branch when doing a `CR1` for a LTS release (as we will branch from the previous versioned branch).
-  - type: markdown
-    attributes:
-      value: |
-        <br>
-
-        ---
-        ### Major version
-  - type: checkboxes
-    id: major
-    attributes:
-      label: Major version
-      description: >-
-        Whether the release is a major new version (e.g. `4.0.0`). Use with care.
-      options:
-        - label: This release is a major version.
-          required: false
