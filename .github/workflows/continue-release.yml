@@ -18,6 +18,12 @@ concurrency:
 
 jobs:
   release:
+    # Only start the job for comments on issues (issue_comment is also triggered for pull requests)
+    # and for trusted users (the automation posts comments as quarkusbot, a collaborator).
+    # The action also checks the user has write permission.
+    if: >-
+      !github.event.issue.pull_request
+      && contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
     runs-on: ubuntu-latest
     # issue_comment is considered a low-trust trigger so the cache is read-only by default.
     # This workflow is the only consumer of the ~/.m2/repository cache, nothing from the comment is executed,
