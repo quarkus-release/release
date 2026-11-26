@@ -18,9 +18,12 @@ concurrency:
 
 jobs:
   release:
-    # Only start the job for trusted users (the automation posts comments as quarkusbot, a collaborator).
+    # Only start the job for comments on issues (issue_comment is also triggered for pull requests)
+    # and for trusted users (the automation posts comments as quarkusbot, a collaborator).
     # The action also checks the user has write permission.
-    if: contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+    if: >-
+      !github.event.issue.pull_request
+      && contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
     runs-on: ubuntu-latest
     steps:
       # Install Java 21 for JBang, the default JDK will be overridden later by the one we want to build with
